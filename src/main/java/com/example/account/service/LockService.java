@@ -26,13 +26,15 @@ public class LockService {
                 log.error("-----------------Lock aquisition failed-----------------");
                 throw new AccountException(ErrorCode.ACCOUNT_TRANSACTION_LOCK);
             }
+        } catch (AccountException e){
+            throw e;
         } catch (Exception e) {
-            log.error("Redis lock failed");
+            log.error("Redis lock failed", e);
         }
     }
 
     public void unlock(String accountNumber) {
-        log.debug("Trying unlock for accountNumber: {}", accountNumber);
+        log.debug("Unlock for accountNumber: {}", accountNumber);
         redissonClient.getLock(getLockKey(accountNumber)).unlock();
     }
 

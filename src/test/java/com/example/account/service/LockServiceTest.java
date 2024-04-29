@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
+import static com.example.account.type.ErrorCode.ACCOUNT_TRANSACTION_LOCK;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -55,7 +56,7 @@ class LockServiceTest {
         AccountException exception = assertThrows(AccountException.class,
                 () -> lockService.lock("123"));
         //then
-        assertEquals(ErrorCode.ACCOUNT_TRANSACTION_LOCK, exception.getErrorCode());
+        assertEquals(ACCOUNT_TRANSACTION_LOCK, exception.getErrorCode());
     }
 
 
