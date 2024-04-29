@@ -45,9 +45,15 @@ public class AccountService {
         // 마지막에생성된계좌번호가져와서 1을 더하는 방식
         // 랜덤방식으로 변경해야함
         // 랜덤으로 나온 숫자가 존재하지 않는 새로운 번호인지도 확인해야됨
-        String newAccountNumber = accountRepository.findFirstByOrderByIdDesc()
-                .map(account -> (Integer.parseInt(account.getAccountNumber()))+1+"")
-                .orElse("1000000000");
+//        String newAccountNumber = accountRepository.findFirstByOrderByIdDesc()
+//                .map(account -> (Integer.parseInt(account.getAccountNumber()))+1+"")
+//                .orElse("1000000000");
+
+        Long ranNum = (long) ((Math.random() * 8999999999L) + 1000000000L);
+        while (!accountRepository.findByAccountNumber(String.valueOf(ranNum)).isEmpty()){
+            ranNum = (long) ((Math.random() * 8999999999L) + 1000000000L);
+        }
+        String newAccountNumber = String.valueOf(ranNum);
 
         return AccountDto.fromEntity(
                 accountRepository.save(Account.builder()
